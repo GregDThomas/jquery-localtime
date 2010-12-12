@@ -145,7 +145,7 @@
 				if( second > 59 ) { throw(second + " is not a valid second"); }
 				var millisecond = ( hasMilliseconds ? getUnsignedInteger( isoTimeString.substr( 20, 3 ) ) : 0 );
 				
-				var objDate = new Date();
+				var objDate = new Date( 2000, 0, 15);
 				if( isUTC ) {
 					objDate.setUTCFullYear( year );
 					objDate.setUTCMonth( month-1 );
