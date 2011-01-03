@@ -47,7 +47,64 @@
 			test("Bad millisecond", function() {
 				raises( function() { $.localtime.parseISOTimeString("2011-01-03 13:39:30.sssZ"), "Invalid millisecond" } );
 			});
-	
+		
+			module("Date/time formats");
+			test("Day formats", function() {
+				$.localtime.setFormat("d");
+				equals("3", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+				$.localtime.setFormat("dd");
+				equals("03", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+			});
+			test("Month formats", function() {
+				$.localtime.setFormat("M");
+				equals("1", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+				$.localtime.setFormat("MM");
+				equals("01", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+				$.localtime.setFormat("MMM");
+				equals("Jan", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+				$.localtime.setFormat("MMMMM");
+				equals("January", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+			});
+			test("Year formats", function() {
+				$.localtime.setFormat("yy");
+				equals("11", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+				$.localtime.setFormat("yyyy");
+				equals("2011", $.localtime.toUTCTime("2011-01-03 13:39:30.300Z") );
+			});
+			test("Hour formats", function() {
+				$.localtime.setFormat("H");
+				equals("3", $.localtime.toUTCTime("2011-01-03 03:39:30.300Z") );
+				$.localtime.setFormat("HH");
+				equals("03", $.localtime.toUTCTime("2011-01-03 03:39:30.300Z") );
+			});
+			test("Minute formats", function() {
+				$.localtime.setFormat("m");
+				equals("3", $.localtime.toUTCTime("2011-01-03 13:03:30.300Z") );
+				$.localtime.setFormat("mm");
+				equals("03", $.localtime.toUTCTime("2011-01-03 13:03:30.300Z") );
+			});
+			test("Second formats", function() {
+				$.localtime.setFormat("s");
+				equals("3", $.localtime.toUTCTime("2011-01-03 13:39:03.300Z") );
+				$.localtime.setFormat("ss");
+				equals("03", $.localtime.toUTCTime("2011-01-03 13:39:03.300Z") );
+			});
+			test("Millisecond formats", function() {
+				$.localtime.setFormat("S");
+				equals("3", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+				$.localtime.setFormat("SS");
+				equals("03", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+				$.localtime.setFormat("SSS");
+				equals("003", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+			});
+			test("Timezone offset formats", function() {
+				$.localtime.setFormat("z");
+				equals("+0", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+				$.localtime.setFormat("zz");
+				equals("+00", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+				$.localtime.setFormat("zzz");
+				equals("+00:00", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
+			});
 		});
 	</script>
   
