@@ -14,7 +14,7 @@
 		
 		var getUnsignedInteger = function( stringToParse ) {
 			if( stringToParse.toString().search(/^[0-9]+$/) != 0) {
-				throw( "'" + stringToParse + "' is not an integer" );
+				throw new Error( "'" + stringToParse + "' is not an integer" );
 			}
 			return parseInt( stringToParse, 10 );
 		};
@@ -140,20 +140,20 @@
 						hasSeconds = false;
 						break;
 					default:
-						throw( isoTimeString + " is not a supported date/time string" );
+						throw new Error( isoTimeString + " is not a supported date/time string" );
 				}
 									
 				var year = getUnsignedInteger( isoTimeString.substr( 0, 4 ) );
 				var month = getUnsignedInteger( isoTimeString.substr( 5, 2 ) );
-				if( month > 12 ) { throw(month + " is not a valid month"); }
+				if( month > 12 ) { throw new Error(month + " is not a valid month"); }
 				var dayOfMonth = getUnsignedInteger( isoTimeString.substr( 8, 2 ) );
-				if( dayOfMonth > 31 ) { throw(dayOfMonth + " is not a valid day"); }
+				if( dayOfMonth > 31 ) { throw new Error(dayOfMonth + " is not a valid day"); }
 				var hour = getUnsignedInteger( isoTimeString.substr( 11, 2 ) );
-				if( hour > 23 ) { throw(hour + " is not a valid hour"); }
+				if( hour > 23 ) { throw new Error(hour + " is not a valid hour"); }
 				var minute = getUnsignedInteger( isoTimeString.substr( 14, 2 ) );
-				if( minute > 59 ) { throw(minute + " is not a valid minute"); }
+				if( minute > 59 ) { throw new Error(minute + " is not a valid minute"); }
 				var second = ( hasSeconds ? getUnsignedInteger( isoTimeString.substr( 17, 2 ) ) : 0 );
-				if( second > 59 ) { throw(second + " is not a valid second"); }
+				if( second > 59 ) { throw new Error(second + " is not a valid second"); }
 				var millisecond = ( hasMilliseconds ? getUnsignedInteger( isoTimeString.substr( 20, 3 ) ) : 0 );
 				
 				var objDate = new Date( 2000, 0, 15);
