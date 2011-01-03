@@ -32,7 +32,7 @@
 			var minute = objDate.getUTCMinutes();
 			var second = objDate.getUTCSeconds();
 			var millisecond = objDate.getUTCMilliseconds();
-			return [year, month, date, hour, minute, second, millisecond];
+			return [year, month, date, hour, minute, second, millisecond, 0];
 		}
 	
 		var getLocalFields = function( objDate ) {
@@ -43,7 +43,8 @@
 			var minute = objDate.getMinutes();
 			var second = objDate.getSeconds();
 			var millisecond = objDate.getMilliseconds();
-			return [year, month, date, hour, minute, second, millisecond];
+			var tzOffset = objDate.getTimezoneOffset();
+			return [year, month, date, hour, minute, second, millisecond, tzOffset];
 		}
 	
 		var formatUTCDateTime = function( dateToFormat, timeFormat ) {
@@ -63,6 +64,9 @@
 			var minute = dateFields[4].toString();
 			var second = dateFields[5].toString();
 			var millisecond = dateFields[6].toString();
+			var tzOffset = dateFields[7];
+			var tzSign = (tzOffset < 0) ? "-" : "+";
+			tzOffset = Math.abs(tzOffset);
 			
 			// Parse the format string, one char at a time
 			if( timeFormat == undefined ) {
@@ -92,6 +96,13 @@
 						case "S": formattedDate += millisecond; break;
 						case "SS": formattedDate += ("0"+millisecond).slice(-2); break;
 						case "SSS": formattedDate += ("00"+millisecond).slice(-3); break;
+						case "z": formattedDate += parseInt( tzOffset / 60 ); break;
+						case "zz": formattedDate += ("0"+parseInt( tzOffset / 60 )).slice(-2); break;
+						case "zzz": formattedDate += tzSign 
+														+ ("0"+parseInt( tzOffset / 60 )).slice(-2)
+														+ ":"
+														+ ("0"+ tzOffset % 60 ).slice(-2)
+														; break;
 						default: formattedDate += pattern;
 					}
 					// Reset the pattern
