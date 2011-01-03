@@ -96,8 +96,8 @@
 						case "S": formattedDate += millisecond; break;
 						case "SS": formattedDate += ("0"+millisecond).slice(-2); break;
 						case "SSS": formattedDate += ("00"+millisecond).slice(-3); break;
-						case "z": formattedDate += parseInt( tzOffset / 60 ); break;
-						case "zz": formattedDate += ("0"+parseInt( tzOffset / 60 )).slice(-2); break;
+						case "z": formattedDate += tzSign + parseInt( tzOffset / 60 ); break;
+						case "zz": formattedDate += tzSign + ("0"+parseInt( tzOffset / 60 )).slice(-2); break;
 						case "zzz": formattedDate += tzSign 
 														+ ("0"+parseInt( tzOffset / 60 )).slice(-2)
 														+ ":"
