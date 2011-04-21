@@ -3,11 +3,11 @@
  *
  * Copyright (c) 2010 Greg Thomas
  */
- 
- /* Note; the following two lines imform JSLint - http://www.jslint.com/ - that this is supposed
-  *	to run within a browser, and that the jQuery variable is defined elsewhere 
+
+ /* Note; the following two lines inform JSLint - http://www.jslint.com/ - that this is supposed
+  *	to run within a browser, and that the jQuery variable is defined elsewhere
   */
-  
+
  /*jslint browser: true */
  /*global jQuery: true */
 (function ($) {
@@ -26,6 +26,10 @@
 							'April','May','June',
 							'July','August','September',
 							'October','November','December'];
+
+		var amPmHour = function( hour ) {
+			return (hour > 13 ) ? (hour - 12) : ( (hour === "0") ? 12 : hour ); 
+		};
 
 		var getUTCFields = function( objDate ) {
 			var year = objDate.getUTCFullYear();
@@ -67,11 +71,11 @@
 			if( timeFormat === undefined ) {
 				timeFormat = _format;
 			}
-			var formattedDate = "", pattern = "";
-			for( var i = 0;  i < timeFormat.length; i ++ ) {
+			var formattedDate = "", pattern = "", i;
+			for( i = 0;  i < timeFormat.length; i ++ ) {
 				pattern += timeFormat.charAt( i );
 				// Have we reached the end of the pattern?
-				if( i == timeFormat.length-1 || timeFormat.charAt( i ) != timeFormat.charAt( i + 1 ) ) {
+				if( i === timeFormat.length-1 || timeFormat.charAt( i ) !== timeFormat.charAt( i + 1 ) ) {
 					// Display something based on the pattern
 					switch( pattern ) {
 						case "d": formattedDate += date; break;
@@ -84,6 +88,8 @@
 						case "yyyy": formattedDate += year; break;
 						case "H": formattedDate += hour; break;
 						case "HH": formattedDate += ("0"+hour).slice(-2); break;
+						case "h": formattedDate += amPmHour(hour); break;
+						case "hh": formattedDate += ("0"+amPmHour(hour)).slice(-2); break;
 						case "m": formattedDate += minute; break;
 						case "mm": formattedDate += ("0"+minute).slice(-2); break;
 						case "s": formattedDate += second; break;
@@ -91,12 +97,14 @@
 						case "S": formattedDate += millisecond; break;
 						case "SS": formattedDate += ("0"+millisecond).slice(-2); break;
 						case "SSS": formattedDate += ("00"+millisecond).slice(-3); break;
+						case "a": case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
+						case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
 						case "z": formattedDate += tzSign + parseInt( tzOffset / 60, 10 ); break;
 						case "zz": formattedDate += tzSign + ("0"+parseInt( tzOffset / 60, 10 )).slice(-2); break;
 						case "zzz": formattedDate += tzSign +
 														("0"+parseInt( tzOffset / 60, 10 )).slice(-2) +
 														":" +
-														("0"+ tzOffset % 60 ).slice(-2); 
+														("0"+ tzOffset % 60 ).slice(-2);
 														break;
 						default: formattedDate += pattern;
 					}
@@ -125,7 +133,7 @@
 			parseISOTimeString: function( isoTimeString ) {
 				isoTimeString = isoTimeString.toString();
 				// Are we using UTC or local time? UTC ends in "Z"
-				var isUTC = isoTimeString.charAt( isoTimeString.length - 1 ) == "Z";
+				var isUTC = isoTimeString.charAt( isoTimeString.length - 1 ) === "Z";
 				// Strip the trailing Z, if necessary
 				if( isUTC ) {
 					isoTimeString = isoTimeString.substr( 0, isoTimeString.length - 1 );
@@ -197,11 +205,11 @@
 }(jQuery));
 
 jQuery(document).ready(function () {
-    jQuery(".localtime").each(function (idx, elem) {
-        if (jQuery(elem).is(":input")) {
-            jQuery(elem).val(jQuery.localtime.toLocalTime(jQuery(elem).val()));
-        } else {
-            jQuery(elem).text(jQuery.localtime.toLocalTime(jQuery(elem).text()));
-        }
-    });
+	jQuery(".localtime").each(function (idx, elem) {
+		if (jQuery(elem).is(":input")) {
+			jQuery(elem).val(jQuery.localtime.toLocalTime(jQuery(elem).val()));
+		} else {
+			jQuery(elem).text(jQuery.localtime.toLocalTime(jQuery(elem).text()));
+		}
+	});
 });

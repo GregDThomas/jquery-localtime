@@ -127,6 +127,35 @@
 				$.localtime.setFormat("zzz");
 				equals("+00:00", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
 			});
+			test("12 hr format", function() {
+				$.localtime.setFormat("h");
+				equals("3", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
+				equals("11", $.localtime.toUTCTime("2011-01-03 23:39:30.003Z") );
+				equals("12", $.localtime.toUTCTime("2011-01-03 00:39:30.003Z") );
+				equals("3", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
+				equals("11", $.localtime.toUTCTime("2011-01-03 11:39:30.003Z") );
+				equals("12", $.localtime.toUTCTime("2011-01-03 12:39:30.003Z") );
+				$.localtime.setFormat("hh");
+				equals("03", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
+				equals("11", $.localtime.toUTCTime("2011-01-03 23:39:30.003Z") );
+				equals("12", $.localtime.toUTCTime("2011-01-03 00:39:30.003Z") );
+				equals("03", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
+				equals("11", $.localtime.toUTCTime("2011-01-03 11:39:30.003Z") );
+				equals("12", $.localtime.toUTCTime("2011-01-03 12:39:30.003Z") );
+			});
+			test("AM/PM format 1", function() {
+				$.localtime.setFormat("a");
+				equals("AM", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
+				equals("PM", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+			});
+			test("AM/PM format 2", function() {
+				$.localtime.setFormat("t");
+				equals("A", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
+				equals("P", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+				$.localtime.setFormat("tt");
+				equals("AM", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
+				equals("PM", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+			});
 		});
 	</script>
   
