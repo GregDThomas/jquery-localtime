@@ -13,7 +13,7 @@
 (function ($) {
 	$.localtime = ( function () {
 
-		var _format = "yyyy-MM-dd HH:mm:ss";
+		var _format = {localtime: "yyyy-MM-dd HH:mm:ss" };
 
 		var getUnsignedInteger = function( stringToParse ) {
 			if( stringToParse.toString().search(/^[0-9]+$/) !== 0) {
@@ -67,10 +67,18 @@
 			var tzSign = (tzOffset < 0) ? "-" : "+";
 			tzOffset = Math.abs(tzOffset);
 
-			// Parse the format string, one char at a time
+			// If we don't have a format, pick one from the selection
 			if( timeFormat === undefined ) {
-				timeFormat = _format;
+				var cssClass;
+				for( cssClass in _format ) {
+					if( _format.hasOwnProperty(cssClass) ) {
+						timeFormat = _format[cssClass];
+						break;
+					}
+				}
 			}
+			
+			// Parse the format string, one char at a time
 			var formattedDate = "", pattern = "", i;
 			for( i = 0;  i < timeFormat.length; i ++ ) {
 				pattern += timeFormat.charAt( i );
@@ -121,13 +129,21 @@
 		};
 
 		var formatLocalDateTime = function( dateToFormat, timeFormat ) {
-			return formatDateTime( getLocalFields( dateToFormat, timeFormat ) );
+			return formatDateTime( getLocalFields( dateToFormat), timeFormat );
 		};
 
 		return {
 
 			setFormat: function( format ) {
-				_format = format;
+				if( typeof format === "object" ) {
+					_format = format;
+				} else {
+					_format = { localtime :  format };
+				}
+			},
+
+			getFormat: function( ) {
+				return _format; 
 			},
 
 			parseISOTimeString: function( isoTimeString ) {
@@ -194,7 +210,6 @@
 
 			toUTCTime: function( timeString, timeFormat ) {
 				return formatUTCDateTime( $.localtime.parseISOTimeString( timeString ), timeFormat );
-
 			},
 
 			toLocalTime: function( timeString, timeFormat ) {
@@ -205,11 +220,20 @@
 }(jQuery));
 
 jQuery(document).ready(function () {
-	jQuery(".localtime").each(function (idx, elem) {
+	var format;
+	var localise = function( idx, elem ) {
 		if (jQuery(elem).is(":input")) {
-			jQuery(elem).val(jQuery.localtime.toLocalTime(jQuery(elem).val()));
+			jQuery(elem).val(jQuery.localtime.toLocalTime(jQuery(elem).val(), format ));
 		} else {
-			jQuery(elem).text(jQuery.localtime.toLocalTime(jQuery(elem).text()));
+			jQuery(elem).text(jQuery.localtime.toLocalTime(jQuery(elem).text(), format ));
 		}
-	});
+	};
+	var formats = jQuery.localtime.getFormat();
+	var cssClass;
+	for( cssClass in formats ) {
+		if( formats.hasOwnProperty(cssClass) ) {
+			format = formats[cssClass];
+			jQuery("." + cssClass).each(localise);
+		}
+	}
 });
