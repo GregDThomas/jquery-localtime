@@ -135,6 +135,7 @@
 				equals("3", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
 				equals("11", $.localtime.toUTCTime("2011-01-03 11:39:30.003Z") );
 				equals("12", $.localtime.toUTCTime("2011-01-03 12:39:30.003Z") );
+				equals("1", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
 				$.localtime.setFormat("hh");
 				equals("03", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
 				equals("11", $.localtime.toUTCTime("2011-01-03 23:39:30.003Z") );
@@ -142,6 +143,7 @@
 				equals("03", $.localtime.toUTCTime("2011-01-03 03:39:30.003Z") );
 				equals("11", $.localtime.toUTCTime("2011-01-03 11:39:30.003Z") );
 				equals("12", $.localtime.toUTCTime("2011-01-03 12:39:30.003Z") );
+				equals("01", $.localtime.toUTCTime("2011-01-03 13:39:30.003Z") );
 			});
 			test("AM/PM format 1", function() {
 				$.localtime.setFormat("a");

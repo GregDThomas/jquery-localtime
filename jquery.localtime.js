@@ -28,7 +28,7 @@
 							'October','November','December'];
 
 		var amPmHour = function( hour ) {
-			return (hour > 13 ) ? (hour - 12) : ( (hour === "0") ? 12 : hour ); 
+			return (hour >= 13 ) ? (hour - 12) : ( (hour === "0") ? 12 : hour ); 
 		};
 
 		var getUTCFields = function( objDate ) {
