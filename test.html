@@ -22,6 +22,12 @@
 			test("Parse with milliseconds", function() {
 				deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("2011-01-03 13:39:30.300Z"), "Milliseconds present" );
 			});
+			test("Parse with milliseconds and space", function() {
+				deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("  2011-01-03 13:39:30.300Z  "), "Milliseconds and spaces present" );
+			});
+			test("Parse with milliseconds and whitespace", function() {
+				deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("\n2011-01-03 13:39:30.300Z\n"), "Milliseconds and whitespace present" );
+			});
 			test("Bad length", function() {
 				raises( function() { $.localtime.parseISOTimeString("foobar"), "Invalid length" } );
 			});

@@ -147,7 +147,7 @@
 			},
 
 			parseISOTimeString: function( isoTimeString ) {
-				isoTimeString = isoTimeString.toString();
+				isoTimeString = jQuery.trim(isoTimeString.toString());
 				// Are we using UTC or local time? UTC ends in "Z"
 				var isUTC = isoTimeString.charAt( isoTimeString.length - 1 ) === "Z";
 				// Strip the trailing Z, if necessary
