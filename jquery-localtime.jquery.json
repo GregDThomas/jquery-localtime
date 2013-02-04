@@ -1,0 +1,30 @@
+{
+    "name": "jquery-localtime",
+    "title": "jQuery localtime",
+    "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
+    "keywords": [
+        "time",
+        "localtime"
+    ],
+    "version": "0.5.0",
+    "author": {
+        "name": "Greg Thomas"
+    },
+    "maintainers": [
+        {
+            "name": "Greg Thomas"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "Apache-2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
+    "bugs": "https://github.com/GregDThomas/jquery-localtime/issues",
+    "homepage": "https://github.com/GregDThomas/jquery-localtime",
+    "docs": "https://github.com/GregDThomas/jquery-localtime",
+    "dependencies": {
+        "jquery": ">=1.4"
+    }
+}
