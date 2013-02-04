@@ -6,4 +6,4 @@ For example, if you have an event happening at 10:00 PST (18:00 UTC), viewers in
 
 This relies on the browsers knowledge of the timezone the viewer is located in; as a content provider, all you need to know is the time in UTC of your event.
 
-See the usage instructions for tull details of how to use the plugin.
+See the [usage instructions](https://github.com/GregDThomas/jquery-localtime/wiki/Usage) for tull details of how to use the plugin.
