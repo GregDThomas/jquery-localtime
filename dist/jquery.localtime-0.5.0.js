@@ -1,13 +1,6 @@
-/*
- * jQuery localtime plugin
- *
- * Copyright (c) 2011 Greg Thomas
- */
-
-/* Note; the following lines are for JSLint - http://www.jslint.com/ */
-/*jslint browser: true	*/	/* Assume a browser */
-/*global jQuery: true	*/	/* jQuery is a global variable */
-/*jslint vars: true		*/	/* Tolerate many var statements per function */
+/*! jQuery localtime - v0.5.0 - 2013-02-16
+* https://github.com/GregDThomas/jquery-localtime
+* Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
 	"use strict";
 	$.localtime = (function () {
@@ -108,21 +101,13 @@
 					case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
 					case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
 					case "z":
-						formattedDate 
-							+= tzSign 
-							+ parseInt(tzOffset / 60, 10);
+						formattedDate += tzSign + parseInt(tzOffset / 60, 10);
 						break;
 					case "zz":
-						formattedDate
-							+= tzSign
-							+ ("0" + parseInt(tzOffset / 60, 10)).slice(-2);
+						formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2);
 						break;
 					case "zzz": 
-						formattedDate
-							+= tzSign
-							+ ("0" + parseInt(tzOffset / 60, 10)).slice(-2)
-							+ ":"
-							+ ("0" + tzOffset % 60).slice(-2);
+						formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2) + ":" + ("0" + tzOffset % 60).slice(-2);
 						break;
 					default: formattedDate += pattern;
 					}
@@ -157,7 +142,7 @@
 			},
 
 			parseISOTimeString: function (isoTimeString) {
-				isoTimeString = jQuery.trim(isoTimeString.toString());
+				isoTimeString = $.trim(isoTimeString.toString());
 				// Are we using UTC or local time? UTC ends in "Z"
 				var isUTC = isoTimeString.charAt(isoTimeString.length - 1) === "Z";
 				// Strip the trailing Z, if necessary
@@ -219,17 +204,17 @@
 			},
 
 			toUTCTime: function (timeString, timeFormat) {
-				return formatUTCDateTime(jQuery.localtime.parseISOTimeString(timeString), timeFormat);
+				return formatUTCDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
 			},
 
 			toLocalTime: function (timeString, timeFormat) {
-				return formatLocalDateTime(jQuery.localtime.parseISOTimeString(timeString), timeFormat);
+				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
 			}
 		};
 	}());
 }(jQuery));
 
-jQuery(document).ready(function () {
+jQuery(document).ready(function ($) {
 	"use strict";
 	var format;
 	var localise = function () {
@@ -239,12 +224,12 @@ jQuery(document).ready(function () {
 			jQuery(this).text(jQuery.localtime.toLocalTime(jQuery(this).text(), format));
 		}
 	};
-	var formats = jQuery.localtime.getFormat();
+	var formats = $.localtime.getFormat();
 	var cssClass;
 	for (cssClass in formats) {
 		if (formats.hasOwnProperty(cssClass)) {
 			format = formats[cssClass];
-			jQuery("." + cssClass).each(localise);
+			$("." + cssClass).each(localise);
 		}
 	}
 });

@@ -1,5 +1,5 @@
 {
-    "name": "jquery-localtime",
+    "name": "jquery.localtime",
     "title": "jQuery localtime",
     "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
     "keywords": [
@@ -25,6 +25,6 @@
     "homepage": "https://github.com/GregDThomas/jquery-localtime",
     "docs": "https://github.com/GregDThomas/jquery-localtime",
     "dependencies": {
-        "jquery": ">=1.4"
+        "jquery": ">=1.3"
     }
 }
