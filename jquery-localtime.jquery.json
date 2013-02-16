@@ -4,9 +4,10 @@
     "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
     "keywords": [
         "time",
-        "localtime"
+        "localtime", 
+		"utc"		
     ],
-    "version": "0.5.0",
+    "version": "0.6.0-SNAPSHOT",
     "author": {
         "name": "Greg Thomas"
     },
@@ -23,7 +24,8 @@
     ],
     "bugs": "https://github.com/GregDThomas/jquery-localtime/issues",
     "homepage": "https://github.com/GregDThomas/jquery-localtime",
-    "docs": "https://github.com/GregDThomas/jquery-localtime",
+    "docs": "https://github.com/GregDThomas/jquery-localtime/wiki/Usage",
+	"download": "https://github.com/GregDThomas/jquery-localtime/tree/master/dist",
     "dependencies": {
         "jquery": ">=1.3"
     }

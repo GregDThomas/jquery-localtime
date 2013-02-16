@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.5.0 - 2013-02-16
+/*! jQuery localtime - v0.6.0-SNAPSHOT - 2013-02-16
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -217,11 +217,11 @@
 jQuery(document).ready(function ($) {
 	"use strict";
 	var format;
-	var localise = function () {
-		if (jQuery(this).is(":input")) {
-			jQuery(this).val(jQuery.localtime.toLocalTime(jQuery(this).val(), format));
+	var localiseByClass = function () {
+		if ($(this).is(':input')) {
+			$(this).val($.localtime.toLocalTime($(this).val(), format));
 		} else {
-			jQuery(this).text(jQuery.localtime.toLocalTime(jQuery(this).text(), format));
+			$(this).text($.localtime.toLocalTime($(this).text(), format));
 		}
 	};
 	var formats = $.localtime.getFormat();
@@ -229,7 +229,18 @@ jQuery(document).ready(function ($) {
 	for (cssClass in formats) {
 		if (formats.hasOwnProperty(cssClass)) {
 			format = formats[cssClass];
-			$("." + cssClass).each(localise);
+			$("." + cssClass).each(localiseByClass);
 		}
 	}
+	
+	var localiseByData = function () {
+		var local_format = jQuery(this).attr('data-localtime-format');
+		if ($(this).is(':input')) {
+			$(this).val($.localtime.toLocalTime($(this).val(), local_format));
+		} else {
+			$(this).text($.localtime.toLocalTime($(this).text(), local_format));
+		}
+	};
+	$('data-localtime-format').each(localiseByData);
+
 });
