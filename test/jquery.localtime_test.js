@@ -173,4 +173,18 @@
 		equal("AM", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
 		equal("PM", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
 	});
+	test("Literals", function() {
+		// Regular case
+		$.localtime.setFormat("dd MMMMM 'at' HH:mm");
+		equal("03 January at 08:39", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
+		// Escapes
+		$.localtime.setFormat("h 'o'\\''clock'");
+		equal("4 o'clock", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+		// Edge case - start
+		$.localtime.setFormat("\\'hh");
+		equal("'04", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+		// Edge case - end
+		$.localtime.setFormat("hh \\'");
+		equal("04 '", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
+	});
 }(jQuery));

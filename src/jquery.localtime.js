@@ -20,7 +20,7 @@
 							'April', 'May', 'June',
 							'July', 'August', 'September',
 							'October', 'November', 'December'];
-
+							
 		var amPmHour = function (hour) {
 			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour); 
 		};
@@ -73,48 +73,71 @@
 			}
 			
 			// Parse the format string, one char at a time
-			var formattedDate = "", pattern = "", i;
-			for (i = 0;  i < timeFormat.length; i = i + 1) {
+			var formattedDate = "", pattern = "";
+			for( var i = 0;  i < timeFormat.length; i ++) {
 				pattern += timeFormat.charAt(i);
-				// Have we reached the end of the pattern?
-				if (i === timeFormat.length - 1 || timeFormat.charAt(i) !== timeFormat.charAt(i + 1)) {
-					// Display something based on the pattern
-					switch (pattern) {
-					case "d": formattedDate += date; break;
-					case "dd": formattedDate += ("0" + date).slice(-2); break;
-					case "M": formattedDate += month; break;
-					case "MM": formattedDate += ("0" + month).slice(-2); break;
-					case "MMM": formattedDate += longMonths[month - 1].substr(0, 3); break;
-					case "MMMMM": formattedDate += longMonths[month - 1]; break;
-					case "yy": formattedDate += year.slice(-2); break;
-					case "yyyy": formattedDate += year; break;
-					case "H": formattedDate += hour; break;
-					case "HH": formattedDate += ("0" + hour).slice(-2); break;
-					case "h": formattedDate += amPmHour(hour); break;
-					case "hh": formattedDate += ("0" + amPmHour(hour)).slice(-2); break;
-					case "m": formattedDate += minute; break;
-					case "mm": formattedDate += ("0" + minute).slice(-2); break;
-					case "s": formattedDate += second; break;
-					case "ss": formattedDate += ("0" + second).slice(-2); break;
-					case "S": formattedDate += millisecond; break;
-					case "SS": formattedDate += ("0" + millisecond).slice(-2); break;
-					case "SSS": formattedDate += ("00" + millisecond).slice(-3); break;
-					case "a": 
-					case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
-					case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
-					case "z":
-						formattedDate += tzSign + parseInt(tzOffset / 60, 10);
-						break;
-					case "zz":
-						formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2);
-						break;
-					case "zzz": 
-						formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2) + ":" + ("0" + tzOffset % 60).slice(-2);
-						break;
-					default: formattedDate += pattern;
+				// Do we have a literal?
+				if( pattern === "'" ) {
+					i ++;
+					for( ; i < timeFormat.length; i ++ ) {					
+						var literalChar = timeFormat.charAt(i);
+						if( literalChar === "'" ) {
+							// End the literal
+							pattern = "";
+							break;
+						}
+						formattedDate += literalChar;
 					}
-					// Reset the pattern
-					pattern = "";
+				// Do we have an escaped single quote?
+				} else if( pattern === "\\" &&
+							i < (timeFormat.length-1) &&
+							timeFormat.charAt(i+1) === "'" ) {							
+					i ++;
+					formattedDate += "'";
+					pattern = "";					
+				} else {
+					// Have we reached the end of the pattern?
+					if (i === timeFormat.length - 1 || timeFormat.charAt(i) !== timeFormat.charAt(i + 1)) {
+						// Display something based on the pattern
+						switch (pattern) {
+							case "d": formattedDate += date; break;
+							case "dd": formattedDate += ("0" + date).slice(-2); break;
+							case "M": formattedDate += month; break;
+							case "MM": formattedDate += ("0" + month).slice(-2); break;
+							case "MMM": formattedDate += longMonths[month - 1].substr(0, 3); break;
+							case "MMMMM": formattedDate += longMonths[month - 1]; break;
+							case "yy": formattedDate += year.slice(-2); break;
+							case "yyyy": formattedDate += year; break;
+							case "H": formattedDate += hour; break;
+							case "HH": formattedDate += ("0" + hour).slice(-2); break;
+							case "h": formattedDate += amPmHour(hour); break;
+							case "hh": formattedDate += ("0" + amPmHour(hour)).slice(-2); break;
+							case "m": formattedDate += minute; break;
+							case "mm": formattedDate += ("0" + minute).slice(-2); break;
+							case "s": formattedDate += second; break;
+							case "ss": formattedDate += ("0" + second).slice(-2); break;
+							case "S": formattedDate += millisecond; break;
+							case "SS": formattedDate += ("0" + millisecond).slice(-2); break;
+							case "SSS": formattedDate += ("00" + millisecond).slice(-3); break;
+							case "a": 
+							case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
+							case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
+							case "z":
+								formattedDate += tzSign + parseInt(tzOffset / 60, 10);
+								break;
+							case "zz":
+								formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2);
+								break;
+							case "zzz": 
+								formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2) + ":" + ("0" + tzOffset % 60).slice(-2);
+								break;
+							default: 
+								formattedDate += pattern;
+								break;
+						}
+						// Reset the pattern
+						pattern = "";
+					}
 				}
 			}
 			return formattedDate;
