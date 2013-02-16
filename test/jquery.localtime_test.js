@@ -187,4 +187,23 @@
 		$.localtime.setFormat("hh \\'");
 		equal("04 '", $.localtime.toUTCTime("2011-01-03 16:39:30.003Z") );
 	});
+	test("Ordinals", function() {
+		// Regular case
+		$.localtime.setFormat("do");
+		equal("1st", $.localtime.toUTCTime("2011-01-01 08:39:30.003Z") );
+		equal("2nd", $.localtime.toUTCTime("2011-01-02 08:39:30.003Z") );
+		equal("3rd", $.localtime.toUTCTime("2011-01-03 08:39:30.003Z") );
+		equal("4th", $.localtime.toUTCTime("2011-01-04 08:39:30.003Z") );
+		equal("5th", $.localtime.toUTCTime("2011-01-05 08:39:30.003Z") );
+		equal("10th", $.localtime.toUTCTime("2011-01-10 08:39:30.003Z") );
+		equal("11th", $.localtime.toUTCTime("2011-01-11 08:39:30.003Z") );
+		equal("12th", $.localtime.toUTCTime("2011-01-12 08:39:30.003Z") );
+		equal("13th", $.localtime.toUTCTime("2011-01-13 08:39:30.003Z") );
+		equal("14th", $.localtime.toUTCTime("2011-01-14 08:39:30.003Z") );
+		equal("20th", $.localtime.toUTCTime("2011-01-20 08:39:30.003Z") );
+		equal("21st", $.localtime.toUTCTime("2011-01-21 08:39:30.003Z") );
+		equal("22nd", $.localtime.toUTCTime("2011-01-22 08:39:30.003Z") );
+		equal("23rd", $.localtime.toUTCTime("2011-01-23 08:39:30.003Z") );
+		equal("24th", $.localtime.toUTCTime("2011-01-24 08:39:30.003Z") );
+	});
 }(jQuery));

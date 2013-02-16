@@ -21,6 +21,8 @@
 							'July', 'August', 'September',
 							'October', 'November', 'December'];
 							
+		var ordinals = ['th', 'st', 'nd', 'rd'];
+							
 		var amPmHour = function (hour) {
 			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour); 
 		};
@@ -119,6 +121,23 @@
 							case "S": formattedDate += millisecond; break;
 							case "SS": formattedDate += ("0" + millisecond).slice(-2); break;
 							case "SSS": formattedDate += ("00" + millisecond).slice(-3); break;
+							case "o": 
+								switch( date ) {
+									// Special cases
+									case '11':
+									case '12':
+									case '13':
+										formattedDate += ordinals[0];
+										break;
+									default:
+										var ordinalIndex = (date % 10);
+										if( ordinalIndex > 3 ) {
+											ordinalIndex = 0;
+										}
+										formattedDate += ordinals[ordinalIndex];
+										break;									
+								}
+								break;
 							case "a": 
 							case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
 							case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
