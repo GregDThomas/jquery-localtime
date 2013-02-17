@@ -192,6 +192,35 @@
 
 			toLocalTime: function (timeString, timeFormat) {
 				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
+			},
+			
+			formatObject: function( object, format ) {
+				if (object.is(':input')) {
+					object.val($.localtime.toLocalTime(object.val(), format));
+				} else {
+					object.text($.localtime.toLocalTime(object.text(), format));
+				}
+			},			
+			
+			formatPage: function() {
+				// First, the class-based format
+				var format;
+				var localiseByClass = function () {
+					$.localtime.formatObject( $(this), format );
+				};
+				var formats = $.localtime.getFormat();
+				var cssClass;
+				for (cssClass in formats) {
+					if (formats.hasOwnProperty(cssClass)) {
+						format = formats[cssClass];
+						$("." + cssClass).each(localiseByClass);
+					}
+				}
+				
+				// Then, the data-based format
+				$('[data-localtime-format]').each( function () {
+					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
+				});
 			}
 		};
 	}());
@@ -199,31 +228,5 @@
 
 jQuery(document).ready(function ($) {
 	"use strict";
-	var format;
-	var localiseByClass = function () {
-		if ($(this).is(':input')) {
-			$(this).val($.localtime.toLocalTime($(this).val(), format));
-		} else {
-			$(this).text($.localtime.toLocalTime($(this).text(), format));
-		}
-	};
-	var formats = $.localtime.getFormat();
-	var cssClass;
-	for (cssClass in formats) {
-		if (formats.hasOwnProperty(cssClass)) {
-			format = formats[cssClass];
-			$("." + cssClass).each(localiseByClass);
-		}
-	}
-	
-	var localiseByData = function () {
-		var local_format = $(this).attr('data-localtime-format');
-		if ($(this).is(':input')) {
-			$(this).val($.localtime.toLocalTime($(this).val(), local_format));
-		} else {
-			$(this).text($.localtime.toLocalTime($(this).text(), local_format));
-		}
-	};
-	$('[data-localtime-format]').each(localiseByData);
-
+	$.localtime.formatPage();
 });

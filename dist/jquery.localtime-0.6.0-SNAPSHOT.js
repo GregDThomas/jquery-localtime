@@ -153,22 +153,17 @@
                             // 1:yyyy  2:MM     3:dd          4:HH      5:mm         6:ss          7:SSS
 				var fields = /^(\d{4})-([01]\d)-([0-3]\d)[T| ]([0-2]\d):([0-5]\d)(?::([0-5]\d)(?:\.(\d{3}))?)?Z$/.exec(isoTimeString);
 				if( fields ) {
-					var year = parseInt(fields[1],10);
-					var month = parseInt(fields[2], 10);
-					if (month > 12) { throw new Error(month + " is not a valid month"); }
+					var year = parseInt(fields[1], 10);
+					var month = parseInt(fields[2], 10) - 1;
 					var dayOfMonth = parseInt(fields[3], 10);
-					if (dayOfMonth > 31) { throw new Error(dayOfMonth + " is not a valid day"); }
 					var hour = parseInt(fields[4], 10);
-					if (hour > 23) { throw new Error(hour + " is not a valid hour"); }
 					var minute = parseInt(fields[5], 10);
-					if (minute > 59) { throw new Error(minute + " is not a valid minute"); }
 					var second = (fields[6] === undefined ? 0 : parseInt(fields[6], 10) );
-					if (second > 59) { throw new Error(second + " is not a valid second"); }
 					var millisecond = (fields[7] === undefined ? 0 : parseInt(fields[7], 10) );
 					
 					var objDate = new Date(2000, 0, 15);
 					objDate.setUTCFullYear(year);
-					objDate.setUTCMonth(month - 1);
+					objDate.setUTCMonth(month);
 					objDate.setUTCDate(dayOfMonth);
 					objDate.setUTCHours(hour);
 					objDate.setUTCMinutes(minute);
@@ -176,9 +171,15 @@
 					objDate.setUTCMilliseconds(millisecond);
 					
 					// Now check for invalid dates - e.g. 30 of Feb, 31 of Sep
-					if( objDate.getUTCMonth() !== (month-1) ||
+					if( objDate.getUTCFullYear() !== year ||
+						objDate.getUTCMonth() !== month ||
 						objDate.getUTCDate() !== dayOfMonth ) {
 						throw new Error(fields[1] + "-" + fields[2] + "-" + fields[3] + " is not a valid date");
+					}
+					
+					// And invalid times - e.g. 25:40 - NB minutes, seconds and milliseconds are constrained by the regex
+					if( objDate.getUTCHours() !== hour ) {
+						throw new Error(fields[4] + "-" + fields[5] + " is not a valid time");
 					}
 					
 					return objDate;
@@ -189,6 +190,35 @@
 
 			toLocalTime: function (timeString, timeFormat) {
 				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
+			},
+			
+			formatObject: function( object, format ) {
+				if (object.is(':input')) {
+					object.val($.localtime.toLocalTime(object.val(), format));
+				} else {
+					object.text($.localtime.toLocalTime(object.text(), format));
+				}
+			},			
+			
+			formatPage: function() {
+				// First, the class-based format
+				var format;
+				var localiseByClass = function () {
+					$.localtime.formatObject( $(this), format );
+				};
+				var formats = $.localtime.getFormat();
+				var cssClass;
+				for (cssClass in formats) {
+					if (formats.hasOwnProperty(cssClass)) {
+						format = formats[cssClass];
+						$("." + cssClass).each(localiseByClass);
+					}
+				}
+				
+				// Then, the data-based format
+				$('[data-localtime-format]').each( function () {
+					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
+				});
 			}
 		};
 	}());
@@ -196,31 +226,5 @@
 
 jQuery(document).ready(function ($) {
 	"use strict";
-	var format;
-	var localiseByClass = function () {
-		if ($(this).is(':input')) {
-			$(this).val($.localtime.toLocalTime($(this).val(), format));
-		} else {
-			$(this).text($.localtime.toLocalTime($(this).text(), format));
-		}
-	};
-	var formats = $.localtime.getFormat();
-	var cssClass;
-	for (cssClass in formats) {
-		if (formats.hasOwnProperty(cssClass)) {
-			format = formats[cssClass];
-			$("." + cssClass).each(localiseByClass);
-		}
-	}
-	
-	var localiseByData = function () {
-		var local_format = $(this).attr('data-localtime-format');
-		if ($(this).is(':input')) {
-			$(this).val($.localtime.toLocalTime($(this).val(), local_format));
-		} else {
-			$(this).text($.localtime.toLocalTime($(this).text(), local_format));
-		}
-	};
-	$('[data-localtime-format]').each(localiseByData);
-
+	$.localtime.formatPage();
 });
