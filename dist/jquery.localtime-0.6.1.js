@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.6.0-SNAPSHOT - 2013-02-17
+/*! jQuery localtime - v0.6.1 - 2013-02-17
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
