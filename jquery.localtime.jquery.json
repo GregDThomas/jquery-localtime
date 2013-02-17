@@ -4,8 +4,12 @@
     "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
     "keywords": [
         "time",
+		"date",
         "localtime", 
-		"utc"		
+		"utc",
+		"datetime",
+		"formatting",
+		"ISO8601"
     ],
     "version": "0.6.0-SNAPSHOT",
     "author": {

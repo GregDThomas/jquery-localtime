@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.6.0-SNAPSHOT - 2013-02-16
+/*! jQuery localtime - v0.6.0-SNAPSHOT - 2013-02-17
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -7,55 +7,26 @@
 
 		var formatList = {localtime: "yyyy-MM-dd HH:mm:ss" };
 
-		var getUnsignedInteger = function (stringToParse) {
-			if (stringToParse.toString().search(/^[0-9]+$/) !== 0) {
-				throw new Error("'" + stringToParse + "' is not an integer");
-			}
-			return parseInt(stringToParse, 10);
-		};
-
 		var longMonths = ['January', 'February', 'March',
 							'April', 'May', 'June',
 							'July', 'August', 'September',
 							'October', 'November', 'December'];
 							
+		var ordinals = ['th', 'st', 'nd', 'rd'];
+							
 		var amPmHour = function (hour) {
 			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour); 
 		};
 
-		var getUTCFields = function (objDate) {
-			var year = objDate.getUTCFullYear();
-			var month = objDate.getUTCMonth() + 1;
-			var date = objDate.getUTCDate();
-			var hour = objDate.getUTCHours();
-			var minute = objDate.getUTCMinutes();
-			var second = objDate.getUTCSeconds();
-			var millisecond = objDate.getUTCMilliseconds();
-			return [year, month, date, hour, minute, second, millisecond, 0];
-		};
-
-		var getLocalFields = function (objDate) {
-			var year = objDate.getFullYear();
-			var month = objDate.getMonth() + 1;
-			var date = objDate.getDate();
-			var hour = objDate.getHours();
-			var minute = objDate.getMinutes();
-			var second = objDate.getSeconds();
-			var millisecond = objDate.getMilliseconds();
+		var formatLocalDateTime = function (objDate, timeFormat) {
+			var year = objDate.getFullYear().toString();
+			var month = (objDate.getMonth() + 1).toString();
+			var date = objDate.getDate().toString();
+			var hour = objDate.getHours().toString();
+			var minute = objDate.getMinutes().toString();
+			var second = objDate.getSeconds().toString();
+			var millisecond = objDate.getMilliseconds().toString();
 			var tzOffset = objDate.getTimezoneOffset();
-			return [year, month, date, hour, minute, second, millisecond, tzOffset];
-		};
-
-		var formatDateTime = function (dateFields, timeFormat) {
-
-			var year = dateFields[0].toString();
-			var month = dateFields[1].toString();
-			var date = dateFields[2].toString();
-			var hour = dateFields[3].toString();
-			var minute = dateFields[4].toString();
-			var second = dateFields[5].toString();
-			var millisecond = dateFields[6].toString();
-			var tzOffset = dateFields[7];
 			var tzSign = (tzOffset < 0) ? "-" : "+";
 			tzOffset = Math.abs(tzOffset);
 
@@ -67,6 +38,10 @@
 						timeFormat = formatList[cssClass];
 						break;
 					}
+				}
+				// If we still don't have one, do whatever the browser does!
+				if (timeFormat === undefined) {
+					return objDate.toString();
 				}
 			}
 			
@@ -117,6 +92,23 @@
 							case "S": formattedDate += millisecond; break;
 							case "SS": formattedDate += ("0" + millisecond).slice(-2); break;
 							case "SSS": formattedDate += ("00" + millisecond).slice(-3); break;
+							case "o": 
+								switch( date ) {
+									// Special cases
+									case '11':
+									case '12':
+									case '13':
+										formattedDate += ordinals[0];
+										break;
+									default:
+										var ordinalIndex = (date % 10);
+										if( ordinalIndex > 3 ) {
+											ordinalIndex = 0;
+										}
+										formattedDate += ordinals[ordinalIndex];
+										break;									
+								}
+								break;
 							case "a": 
 							case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
 							case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
@@ -139,15 +131,6 @@
 				}
 			}
 			return formattedDate;
-
-		};
-
-		var formatUTCDateTime = function (dateToFormat, timeFormat) {
-			return formatDateTime(getUTCFields(dateToFormat), timeFormat);
-		};
-
-		var formatLocalDateTime = function (dateToFormat, timeFormat) {
-			return formatDateTime(getLocalFields(dateToFormat), timeFormat);
 		};
 
 		return {
@@ -166,46 +149,24 @@
 
 			parseISOTimeString: function (isoTimeString) {
 				isoTimeString = $.trim(isoTimeString.toString());
-				// Are we using UTC or local time? UTC ends in "Z"
-				var isUTC = isoTimeString.charAt(isoTimeString.length - 1) === "Z";
-				// Strip the trailing Z, if necessary
-				if (isUTC) {
-					isoTimeString = isoTimeString.substr(0, isoTimeString.length - 1);
-				}
-				// Do we have seconds or milliseconds?
-				var hasSeconds, hasMilliseconds;
-				switch (isoTimeString.length) {
-				case 23:
-					hasMilliseconds = true;
-					hasSeconds = true;
-					break;
-				case 19:
-					hasMilliseconds = false;
-					hasSeconds = true;
-					break;
-				case 16:
-					hasMilliseconds = false;
-					hasSeconds = false;
-					break;
-				default:
-					throw new Error(isoTimeString + " is not a supported date/time string");
-				}
-
-				var year = getUnsignedInteger(isoTimeString.substr(0, 4));
-				var month = getUnsignedInteger(isoTimeString.substr(5, 2));
-				if (month > 12) { throw new Error(month + " is not a valid month"); }
-				var dayOfMonth = getUnsignedInteger(isoTimeString.substr(8, 2));
-				if (dayOfMonth > 31) { throw new Error(dayOfMonth + " is not a valid day"); }
-				var hour = getUnsignedInteger(isoTimeString.substr(11, 2));
-				if (hour > 23) { throw new Error(hour + " is not a valid hour"); }
-				var minute = getUnsignedInteger(isoTimeString.substr(14, 2));
-				if (minute > 59) { throw new Error(minute + " is not a valid minute"); }
-				var second = (hasSeconds ? getUnsignedInteger(isoTimeString.substr(17, 2)) : 0);
-				if (second > 59) { throw new Error(second + " is not a valid second"); }
-				var millisecond = (hasMilliseconds ? getUnsignedInteger(isoTimeString.substr(20, 3)) : 0);
-
-				var objDate = new Date(2000, 0, 15);
-				if (isUTC) {
+							// 2013-02-17 14:28:10.123Z
+                            // 1:yyyy  2:MM     3:dd          4:HH      5:mm         6:ss          7:SSS
+				var fields = /^(\d{4})-([01]\d)-([0-3]\d)[T| ]([0-2]\d):([0-5]\d)(?::([0-5]\d)(?:\.(\d{3}))?)?Z$/.exec(isoTimeString);
+				if( fields ) {
+					var year = parseInt(fields[1],10);
+					var month = parseInt(fields[2], 10);
+					if (month > 12) { throw new Error(month + " is not a valid month"); }
+					var dayOfMonth = parseInt(fields[3], 10);
+					if (dayOfMonth > 31) { throw new Error(dayOfMonth + " is not a valid day"); }
+					var hour = parseInt(fields[4], 10);
+					if (hour > 23) { throw new Error(hour + " is not a valid hour"); }
+					var minute = parseInt(fields[5], 10);
+					if (minute > 59) { throw new Error(minute + " is not a valid minute"); }
+					var second = (fields[6] === undefined ? 0 : parseInt(fields[6], 10) );
+					if (second > 59) { throw new Error(second + " is not a valid second"); }
+					var millisecond = (fields[7] === undefined ? 0 : parseInt(fields[7], 10) );
+					
+					var objDate = new Date(2000, 0, 15);
 					objDate.setUTCFullYear(year);
 					objDate.setUTCMonth(month - 1);
 					objDate.setUTCDate(dayOfMonth);
@@ -213,21 +174,17 @@
 					objDate.setUTCMinutes(minute);
 					objDate.setUTCSeconds(second);
 					objDate.setUTCMilliseconds(millisecond);
+					
+					// Now check for invalid dates - e.g. 30 of Feb, 31 of Sep
+					if( objDate.getUTCMonth() !== (month-1) ||
+						objDate.getUTCDate() !== dayOfMonth ) {
+						throw new Error(fields[1] + "-" + fields[2] + "-" + fields[3] + " is not a valid date");
+					}
+					
+					return objDate;
 				} else {
-					objDate.setFullYear(year);
-					objDate.setMonth(month - 1);
-					objDate.setDate(dayOfMonth);
-					objDate.setHours(hour);
-					objDate.setMinutes(minute);
-					objDate.setSeconds(second);
-					objDate.setMilliseconds(millisecond);
+					throw new Error(isoTimeString + " is not a supported date/time string");
 				}
-
-				return objDate;
-			},
-
-			toUTCTime: function (timeString, timeFormat) {
-				return formatUTCDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
 			},
 
 			toLocalTime: function (timeString, timeFormat) {
