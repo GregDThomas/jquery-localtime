@@ -24,18 +24,23 @@
 	
 	test("Parse no seconds", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,0,0) ), $.localtime.parseISOTimeString("2011-01-03 13:39Z"), "No seconds present" );
+		deepEqual( new Date( Date.UTC(2011,0,3,13,39,0,0) ), $.localtime.parseISOTimeString("2011-01-03T13:39Z"), "No seconds present" );
 	});
 	test("Parse with seconds", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,0) ), $.localtime.parseISOTimeString("2011-01-03 13:39:30Z"), "Seconds only present" );
+		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,0) ), $.localtime.parseISOTimeString("2011-01-03T13:39:30Z"), "Seconds only present" );
 	});
 	test("Parse with milliseconds", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("2011-01-03 13:39:30.300Z"), "Milliseconds present" );
+		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("2011-01-03T13:39:30.300Z"), "Milliseconds present" );
 	});
 	test("Parse with milliseconds and space", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("  2011-01-03 13:39:30.300Z  "), "Milliseconds and spaces present" );
+		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("  2011-01-03T13:39:30.300Z  "), "Milliseconds and spaces present" );
 	});
 	test("Parse with milliseconds and whitespace", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("\n2011-01-03 13:39:30.300Z\n"), "Milliseconds and whitespace present" );
+		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("\n2011-01-03T13:39:30.300Z\n"), "Milliseconds and whitespace present" );
 	});
 	
 	module("Testing bad dates");
