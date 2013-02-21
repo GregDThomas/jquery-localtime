@@ -29,7 +29,7 @@
 			var second = objDate.getSeconds().toString();
 			var millisecond = objDate.getMilliseconds().toString();
 			var tzOffset = objDate.getTimezoneOffset();
-			var tzSign = (tzOffset < 0) ? "-" : "+";
+			var tzSign = (tzOffset > 0) ? "-" : "+";
 			tzOffset = Math.abs(tzOffset);
 
 			// If we don't have a format, pick one from the selection
