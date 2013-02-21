@@ -11,7 +11,7 @@
 		"formatting",
 		"ISO8601"
     ],
-    "version": "0.6.1",
+    "version": "0.6.2-SNAPSHOT",
     "author": {
         "name": "Greg Thomas"
     },
@@ -29,7 +29,7 @@
     "bugs": "https://github.com/GregDThomas/jquery-localtime/issues",
     "homepage": "https://github.com/GregDThomas/jquery-localtime",
     "docs": "https://github.com/GregDThomas/jquery-localtime/wiki/Usage",
-	"download": "https://github.com/GregDThomas/jquery-localtime/tree/0.6.1/dist",
+	"download": "https://github.com/GregDThomas/jquery-localtime/tree/0.6.2/dist",
     "dependencies": {
         "jquery": ">=1.3"
     }

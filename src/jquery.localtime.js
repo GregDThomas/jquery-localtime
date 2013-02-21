@@ -191,6 +191,9 @@
 			},
 
 			toLocalTime: function (timeString, timeFormat) {
+				if( timeFormat === '' ) {
+					timeFormat = undefined;
+				}
 				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
 			},
 			

@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.6.1 - 2013-02-17
+/*! jQuery localtime - v0.6.2-SNAPSHOT - 2013-02-21
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -189,6 +189,9 @@
 			},
 
 			toLocalTime: function (timeString, timeFormat) {
+				if( timeFormat === '' ) {
+					timeFormat = undefined;
+				}
 				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
 			},
 			

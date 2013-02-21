@@ -219,4 +219,21 @@
 		equal("23rd", $.localtime.toLocalTime("2011-01-23 08:39:30.003Z") );
 		equal("24th", $.localtime.toLocalTime("2011-01-24 08:39:30.003Z") );
 	});
+	
+	module("Test page re-writing");
+	
+	test("Defaults", function() {
+		equal("2011-01-03 13:39:00", $('#testDefaultClassFormat').text());
+		equal("2011-01-03 13:39:00", $('#testDefaultDataFormat').text());
+	});
+	
+	test("Non defaults", function() {
+		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultDataFormat').text());
+		// NB. Following is require to prevent the formatting be applied to already
+		// formatted date/times
+		$('[data-localtime-format]').removeAttr('data-localtime-format');
+		$.localtime.setFormat({localtimeNonDefaultFormat:"do MMM yyyy 'at' HH:mm"});
+		$.localtime.formatPage();
+		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultClassFormat').text());
+	});
 }(jQuery));
