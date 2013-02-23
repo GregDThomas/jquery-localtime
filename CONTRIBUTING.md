@@ -7,7 +7,7 @@ Please don't edit files in the `dist` subdirectory as they are generated via gru
 Regarding code style like indentation and whitespace, **follow the conventions you see used in the source already.**
 
 ### PhantomJS
-While grunt can run the included unit tests via [PhantomJS](http://phantomjs.org/), this shouldn't be considered a substitute for the real thing. Please be sure to test the `test/*.html` unit test file(s) in _actual_ browsers.
+While grunt runs the included unit tests via [PhantomJS](http://phantomjs.org/), this shouldn't be considered a substitute for the real thing. Please be sure to test the `test/*.html` unit test file(s) in _actual_ browsers **but please note** that the some of the tests will fail in a browser unless your time zone is `Europe/London`. The `gruntfile.js` will however correctly set the time zone for PhantomJS to ensure that the tests run during build will always use the expected time zone, regardless of your location. Remember, though, that it's only the _tests_ that expect to be in `Europe/London` - the plugin should work anywhere.
 
 ## Modifying the code
 First, ensure that you have the latest [Node.js](http://nodejs.org/) and [npm](http://npmjs.org/) installed.
