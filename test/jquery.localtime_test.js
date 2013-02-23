@@ -236,4 +236,11 @@
 		$.localtime.formatPage();
 		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultClassFormat').text());
 	});
+	
+	test("Dates and strings", function() {
+		$.localtime.setFormat("do MMMMM yyyy 'at' hh:mm:ss.SSS tt zzz"); // Pretty much everything
+		// We know parsing strings works OK, so ensure that passing in a date that matches the string is identical
+		equal( $.localtime.toLocalTime(new Date( Date.UTC(2013,1,23,2,16,33,123) )), $.localtime.toLocalTime("2013-02-23 02:16:33.123Z") );
+		equal( $.localtime.toLocalTime(new Date( Date.UTC(2011,0,3,13,39,30,300) )), $.localtime.toLocalTime("2011-01-03 13:39:30.300Z") );
+	});
 }(jQuery));

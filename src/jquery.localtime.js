@@ -163,14 +163,7 @@
 					var second = (fields[6] === undefined ? 0 : parseInt(fields[6], 10) );
 					var millisecond = (fields[7] === undefined ? 0 : parseInt(fields[7], 10) );
 					
-					var objDate = new Date(2000, 0, 15);
-					objDate.setUTCFullYear(year);
-					objDate.setUTCMonth(month);
-					objDate.setUTCDate(dayOfMonth);
-					objDate.setUTCHours(hour);
-					objDate.setUTCMinutes(minute);
-					objDate.setUTCSeconds(second);
-					objDate.setUTCMilliseconds(millisecond);
+					var objDate = new Date(Date.UTC(year, month, dayOfMonth, hour, minute, second, millisecond));
 					
 					// Now check for invalid dates - e.g. 30 of Feb, 31 of Sep
 					if( objDate.getUTCFullYear() !== year ||
@@ -190,11 +183,14 @@
 				}
 			},
 
-			toLocalTime: function (timeString, timeFormat) {
+			toLocalTime: function (timeField, timeFormat) {
+				if( timeField.constructor.name !== 'Date' ) {
+					timeField = $.localtime.parseISOTimeString(timeField);
+				}
 				if( timeFormat === '' ) {
 					timeFormat = undefined;
 				}
-				return formatLocalDateTime($.localtime.parseISOTimeString(timeString), timeFormat);
+				return formatLocalDateTime(timeField, timeFormat);
 			},
 			
 			formatObject: function( object, format ) {
