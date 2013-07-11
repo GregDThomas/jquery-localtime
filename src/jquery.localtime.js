@@ -174,7 +174,7 @@
 					
 					// And invalid times - e.g. 25:40 - NB minutes, seconds and milliseconds are constrained by the regex
 					if( objDate.getUTCHours() !== hour ) {
-						throw new Error(fields[4] + "-" + fields[5] + " is not a valid time");
+						throw new Error(fields[4] + ":" + fields[5] + " is not a valid time");
 					}
 					
 					return objDate;
