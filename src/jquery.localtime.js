@@ -184,7 +184,7 @@
 			},
 
 			toLocalTime: function (timeField, timeFormat) {
-				if( timeField.constructor.name !== 'Date' ) {
+				if( Object.prototype.toString.call(timeField) !== '[object Date]' ) {
 					timeField = $.localtime.parseISOTimeString(timeField);
 				}
 				if( timeFormat === '' ) {
