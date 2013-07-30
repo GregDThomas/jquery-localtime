@@ -160,8 +160,8 @@
 					var dayOfMonth = parseInt(fields[3], 10);
 					var hour = parseInt(fields[4], 10);
 					var minute = parseInt(fields[5], 10);
-					var second = (fields[6] === undefined ? 0 : parseInt(fields[6], 10) );
-					var millisecond = (fields[7] === undefined ? 0 : parseInt(fields[7], 10) );
+					var second = (fields[6] ? parseInt(fields[6], 10) : 0 );
+					var millisecond = (fields[7] ? parseInt(fields[7], 10) : 0 );
 					
 					var objDate = new Date(Date.UTC(year, month, dayOfMonth, hour, minute, second, millisecond));
 					

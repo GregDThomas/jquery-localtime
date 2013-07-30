@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.7.0-SNAPSHOT - 2013-02-23
+/*! jQuery localtime - v0.7.0-SNAPSHOT - 2013-07-30
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -158,8 +158,8 @@
 					var dayOfMonth = parseInt(fields[3], 10);
 					var hour = parseInt(fields[4], 10);
 					var minute = parseInt(fields[5], 10);
-					var second = (fields[6] === undefined ? 0 : parseInt(fields[6], 10) );
-					var millisecond = (fields[7] === undefined ? 0 : parseInt(fields[7], 10) );
+					var second = (fields[6] ? parseInt(fields[6], 10) : 0 );
+					var millisecond = (fields[7] ? parseInt(fields[7], 10) : 0 );
 					
 					var objDate = new Date(Date.UTC(year, month, dayOfMonth, hour, minute, second, millisecond));
 					
@@ -172,7 +172,7 @@
 					
 					// And invalid times - e.g. 25:40 - NB minutes, seconds and milliseconds are constrained by the regex
 					if( objDate.getUTCHours() !== hour ) {
-						throw new Error(fields[4] + "-" + fields[5] + " is not a valid time");
+						throw new Error(fields[4] + ":" + fields[5] + " is not a valid time");
 					}
 					
 					return objDate;
