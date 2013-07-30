@@ -11,7 +11,7 @@
 		"formatting",
 		"ISO8601"
     ],
-    "version": "0.7.0-SNAPSHOT",
+    "version": "0.7.0",
     "author": {
         "name": "Greg Thomas"
     },
