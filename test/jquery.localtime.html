@@ -30,6 +30,15 @@
 		<span id="testDefaultDataFormat" data-localtime-format>2011-01-03T13:39Z</span>
 		<span id="testNonDefaultClassFormat" class="localtimeNonDefaultFormat">2011-01-03T13:39Z</span>
 		<span id="testNonDefaultDataFormat" data-localtime-format="do MMM yyyy 'at' HH:mm">2011-01-03T13:39Z</span>
+		<div id="outerScope">
+			<!-- Note - no class for jquery at this time to prevent it being modified on page load -->
+			<span id="outerSpanAttribute" class="testScopeAttribute">2011-01-03T13:39Z</span>
+			<span id="outerSpanClass" class="testScopeClass">2011-01-03T13:39Z</span>
+			<div id="innerScope">
+				<span id="innerSpanAttribute" class="testScopeAttribute">2011-01-03T13:39Z</span>
+				<span id="innerSpanClass" class="testScopeClass">2011-01-03T13:39Z</span>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

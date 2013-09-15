@@ -239,7 +239,7 @@
 		// formatted date/times
 		$('[data-localtime-format]').removeAttr('data-localtime-format');
 		$.localtime.setFormat({localtimeNonDefaultFormat:"do MMM yyyy 'at' HH:mm"});
-		$.localtime.formatPage();
+		$.localtime.format();
 		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultClassFormat').text());
 	});
 	
@@ -249,4 +249,41 @@
 		equal( $.localtime.toLocalTime(new Date( Date.UTC(2013,1,23,2,16,33,123) )), $.localtime.toLocalTime("2013-02-23 02:16:33.123Z") );
 		equal( $.localtime.toLocalTime(new Date( Date.UTC(2011,0,3,13,39,30,300) )), $.localtime.toLocalTime("2011-01-03 13:39:30.300Z") );
 	});
+	
+	module("Test scope limitation");
+	
+	test("Scope limitation by attribute", function() {
+		// First, apply the attribute to the span's
+		$('.testScopeAttribute').attr('data-localtime-format', "do MMM yyyy 'at' HH:mm");
+		// Format only the inner div ...
+		$.localtime.format('#innerScope');
+		equal("2011-01-03T13:39Z", $('#outerSpanAttribute').text()); // Unchanged
+		equal("3rd Jan 2011 at 13:39", $('#innerSpanAttribute').text()); // Formatted
+	});
+	
+	test("Scope limitation by class", function() {
+		// First, apply the attribute to the span's
+		$.localtime.setFormat({localtime:"do MMM yyyy 'at' HH:mm"});
+		$('.testScopeClass').addClass('localtime');
+		// Format only the inner div ...
+		$.localtime.format('#innerScope');
+		equal("2011-01-03T13:39Z", $('#outerSpanClass').text()); // Unchanged
+		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text()); // Formatted
+	});
+	
+	test("Default scope (whoele page)", function() {
+		// NB. Following is require to prevent the formatting be applied to already
+		// formatted date/times
+		$('[data-localtime-format]').removeAttr('data-localtime-format');
+		$('*').removeClass('localtime');
+		$.localtime.setFormat({localtime:"do MMM yyyy 'at' HH:mm"});
+		$('.testScopeAttribute').attr('data-localtime-format', "do MMM yyyy 'at' HH:mm");
+		$('.testScopeClass').addClass('localtime');
+		$.localtime.format();
+		equal("3rd Jan 2011 at 13:39", $('#outerSpanAttribute').text()); 
+		equal("3rd Jan 2011 at 13:39", $('#innerSpanAttribute').text());
+		equal("3rd Jan 2011 at 13:39", $('#outerSpanClass').text());
+		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text()); 
+	});
+	
 }(jQuery));

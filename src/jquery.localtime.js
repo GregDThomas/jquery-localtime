@@ -202,8 +202,13 @@
 					object.text($.localtime.toLocalTime(object.text(), format));
 				}
 			},			
-			
+	
+			// Deprecated! Use format() instead
 			formatPage: function() {
+				$.localtime.format();
+			},
+	
+			format: function( scope ) {
 				// First, the class-based format
 				var format;
 				var localiseByClass = function () {
@@ -214,12 +219,12 @@
 				for (cssClass in formats) {
 					if (formats.hasOwnProperty(cssClass)) {
 						format = formats[cssClass];
-						$("." + cssClass).each(localiseByClass);
+						$("." + cssClass, scope).each(localiseByClass);
 					}
 				}
 				
 				// Then, the data-based format
-				$('[data-localtime-format]').each( function () {
+				$('[data-localtime-format]', scope).each( function () {
 					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
 				});
 			}
@@ -229,5 +234,5 @@
 
 jQuery(document).ready(function ($) {
 	"use strict";
-	$.localtime.formatPage();
+	$.localtime.format();
 });
