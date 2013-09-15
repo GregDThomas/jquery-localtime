@@ -180,9 +180,15 @@
 	});
 	test("AM/PM format 2", function() {
 		$.localtime.setFormat("t");
+		equal("a", $.localtime.toLocalTime("2011-01-03 08:39:30.003Z") );
+		equal("p", $.localtime.toLocalTime("2011-01-03 16:39:30.003Z") );
+		$.localtime.setFormat("tt");
+		equal("am", $.localtime.toLocalTime("2011-01-03 08:39:30.003Z") );
+		equal("pm", $.localtime.toLocalTime("2011-01-03 16:39:30.003Z") );
+		$.localtime.setFormat("T");
 		equal("A", $.localtime.toLocalTime("2011-01-03 08:39:30.003Z") );
 		equal("P", $.localtime.toLocalTime("2011-01-03 16:39:30.003Z") );
-		$.localtime.setFormat("tt");
+		$.localtime.setFormat("TT");
 		equal("AM", $.localtime.toLocalTime("2011-01-03 08:39:30.003Z") );
 		equal("PM", $.localtime.toLocalTime("2011-01-03 16:39:30.003Z") );
 	});

@@ -112,8 +112,10 @@
 								}
 								break;
 							case "a": 
-							case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
-							case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
+							case "TT": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
+							case "tt": formattedDate += (hour >= 12) ? "pm" : "am"; break;
+							case "T": formattedDate += (hour >= 12) ? "P" : "A"; break;
+							case "t": formattedDate += (hour >= 12) ? "p" : "a"; break;
 							case "z":
 								formattedDate += tzSign + parseInt(tzOffset / 60, 10);
 								break;
