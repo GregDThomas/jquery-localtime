@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.7.1 - 2013-07-30
+/*! jQuery localtime - v0.8.0 - 2013-09-15
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2013 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -110,8 +110,10 @@
 								}
 								break;
 							case "a": 
-							case "tt": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
-							case "t": formattedDate += (hour >= 12) ? "P" : "A"; break;
+							case "TT": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
+							case "tt": formattedDate += (hour >= 12) ? "pm" : "am"; break;
+							case "T": formattedDate += (hour >= 12) ? "P" : "A"; break;
+							case "t": formattedDate += (hour >= 12) ? "p" : "a"; break;
 							case "z":
 								formattedDate += tzSign + parseInt(tzOffset / 60, 10);
 								break;
@@ -198,8 +200,13 @@
 					object.text($.localtime.toLocalTime(object.text(), format));
 				}
 			},			
-			
+	
+			// Deprecated! Use format() instead
 			formatPage: function() {
+				$.localtime.format();
+			},
+	
+			format: function( scope ) {
 				// First, the class-based format
 				var format;
 				var localiseByClass = function () {
@@ -210,12 +217,12 @@
 				for (cssClass in formats) {
 					if (formats.hasOwnProperty(cssClass)) {
 						format = formats[cssClass];
-						$("." + cssClass).each(localiseByClass);
+						$("." + cssClass, scope).each(localiseByClass);
 					}
 				}
 				
 				// Then, the data-based format
-				$('[data-localtime-format]').each( function () {
+				$('[data-localtime-format]', scope).each( function () {
 					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
 				});
 			}
@@ -225,5 +232,5 @@
 
 jQuery(document).ready(function ($) {
 	"use strict";
-	$.localtime.formatPage();
+	$.localtime.format();
 });
