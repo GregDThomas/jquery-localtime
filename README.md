@@ -8,6 +8,6 @@ This relies on the browsers knowledge of the timezone the viewer is located in; 
 
 See the [usage instructions](https://github.com/GregDThomas/jquery-localtime/wiki/Usage) for tull details of how to use the plugin.
 
-The current release is [version 0.7.1](https://github.com/GregDThomas/jquery-localtime/tree/0.7.1/dist) (0.7.0 was never properly released due to a PICNIC problem).
+The current release is [version 0.8.0](https://github.com/GregDThomas/jquery-localtime/tree/0.8.0/dist).
 
 If you have any queries, find any problems, have some ideas for improblements, or have anything else you want to discuss about the plugin, please feel free to raise an issue to discuss it!
