@@ -1,4 +1,5 @@
 {
+    "version": "0.9.0-SNAPSHOT",
     "name": "jquery.localtime",
     "title": "jQuery localtime",
     "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
@@ -11,7 +12,6 @@
 		"formatting",
 		"ISO8601"
     ],
-    "version": "0.9.0-SNAPSHOT",
     "author": {
         "name": "Greg Thomas"
     },
@@ -29,7 +29,7 @@
     "bugs": "https://github.com/GregDThomas/jquery-localtime/issues",
     "homepage": "https://github.com/GregDThomas/jquery-localtime",
     "docs": "https://github.com/GregDThomas/jquery-localtime/wiki/Usage",
-	"download": "https://github.com/GregDThomas/jquery-localtime/tree/0.7.0/dist",
+	"download": "https://github.com/GregDThomas/jquery-localtime/tree/${version}/dist",
     "dependencies": {
         "jquery": ">=1.3"
     }

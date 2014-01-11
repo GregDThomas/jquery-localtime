@@ -204,6 +204,8 @@
 			formatObject: function( object, format ) {
 				if (object.is(':input')) {
 					object.val($.localtime.toLocalTime(object.val(), format));
+				} else if (object.is('time') ) {
+					object.text($.localtime.toLocalTime(object.attr('datetime'), format));
 				} else {
 					object.text($.localtime.toLocalTime(object.text(), format));
 				}

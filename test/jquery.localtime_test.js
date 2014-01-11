@@ -21,7 +21,7 @@
   */
 /*global raises */
 	module( "Limited ISO 8601 parsing" );
-	
+
 	test("Parse no seconds", function() {
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,0,0) ), $.localtime.parseISOTimeString("2011-01-03 13:39Z"), "No seconds present" );
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,0,0) ), $.localtime.parseISOTimeString("2011-01-03T13:39Z"), "No seconds present" );
@@ -42,7 +42,7 @@
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("\n2011-01-03 13:39:30.300Z\n"), "Milliseconds and whitespace present" );
 		deepEqual( new Date( Date.UTC(2011,0,3,13,39,30,300) ), $.localtime.parseISOTimeString("\n2011-01-03T13:39:30.300Z\n"), "Milliseconds and whitespace present" );
 	});
-	
+
 	module("Testing bad dates");
 	test("Bad length", function() {
 		raises( function() { $.localtime.parseISOTimeString("foobar"); }, Error, "Invalid length" );
@@ -235,14 +235,14 @@
 		equal("23rd", $.localtime.toLocalTime("2011-01-23 08:39:30.003Z") );
 		equal("24th", $.localtime.toLocalTime("2011-01-24 08:39:30.003Z") );
 	});
-	
+
 	module("Test page re-writing");
-	
+
 	test("Defaults", function() {
 		equal("2011-01-03 13:39:00", $('#testDefaultClassFormat').text());
 		equal("2011-01-03 13:39:00", $('#testDefaultDataFormat').text());
 	});
-	
+
 	test("Non defaults", function() {
 		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultDataFormat').text());
 		// NB. Following is require to prevent the formatting be applied to already
@@ -252,16 +252,16 @@
 		$.localtime.format();
 		equal("3rd Jan 2011 at 13:39", $('#testNonDefaultClassFormat').text());
 	});
-	
+
 	test("Dates and strings", function() {
 		$.localtime.setFormat("do MMMMM yyyy 'at' hh:mm:ss.SSS tt zzz"); // Pretty much everything
 		// We know parsing strings works OK, so ensure that passing in a date that matches the string is identical
 		equal( $.localtime.toLocalTime(new Date( Date.UTC(2013,1,23,2,16,33,123) )), $.localtime.toLocalTime("2013-02-23 02:16:33.123Z") );
 		equal( $.localtime.toLocalTime(new Date( Date.UTC(2011,0,3,13,39,30,300) )), $.localtime.toLocalTime("2011-01-03 13:39:30.300Z") );
 	});
-	
+
 	module("Test scope limitation");
-	
+
 	test("Scope limitation by attribute", function() {
 		// First, apply the attribute to the span's
 		$('.testScopeAttribute').attr('data-localtime-format', "do MMM yyyy 'at' HH:mm");
@@ -270,7 +270,7 @@
 		equal("2011-01-03T13:39Z", $('#outerSpanAttribute').text()); // Unchanged
 		equal("3rd Jan 2011 at 13:39", $('#innerSpanAttribute').text()); // Formatted
 	});
-	
+
 	test("Scope limitation by class", function() {
 		// First, apply the attribute to the span's
 		$.localtime.setFormat({localtime:"do MMM yyyy 'at' HH:mm"});
@@ -280,7 +280,7 @@
 		equal("2011-01-03T13:39Z", $('#outerSpanClass').text()); // Unchanged
 		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text()); // Formatted
 	});
-	
+
 	test("Default scope (whole page)", function() {
 		// NB. Following is require to prevent the formatting be applied to already
 		// formatted date/times
@@ -290,10 +290,13 @@
 		$('.testScopeAttribute').attr('data-localtime-format', "do MMM yyyy 'at' HH:mm");
 		$('.testScopeClass').addClass('localtime');
 		$.localtime.format();
-		equal("3rd Jan 2011 at 13:39", $('#outerSpanAttribute').text()); 
+		equal("3rd Jan 2011 at 13:39", $('#outerSpanAttribute').text());
 		equal("3rd Jan 2011 at 13:39", $('#innerSpanAttribute').text());
 		equal("3rd Jan 2011 at 13:39", $('#outerSpanClass').text());
-		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text()); 
+		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text());
 	});
-	
+
+	test("time tags", function() {
+		equal($('#timeTagTest').text(), "3rd Jan 2011 1:39pm");
+	});
 }(jQuery));
