@@ -14,6 +14,8 @@
 							'July', 'August', 'September',
 							'October', 'November', 'December'];
 							
+		var longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+							
 		var ordinals = ['th', 'st', 'nd', 'rd'];
 							
 		var amPmHour = function (hour) {
@@ -21,9 +23,11 @@
 		};
 
 		var formatLocalDateTime = function (objDate, timeFormat) {
+			// Note that some fields are stored strings, as we slice and/or add a "0" prefix in some cases.
 			var year = objDate.getFullYear().toString();
 			var month = (objDate.getMonth() + 1).toString();
 			var date = objDate.getDate().toString();
+			var dow = objDate.getDay();
 			var hour = objDate.getHours().toString();
 			var minute = objDate.getMinutes().toString();
 			var second = objDate.getSeconds().toString();
@@ -77,6 +81,8 @@
 						switch (pattern) {
 							case "d": formattedDate += date; break;
 							case "dd": formattedDate += ("0" + date).slice(-2); break;
+							case "ddd": formattedDate += longDays[dow].substr(0, 3); break; 
+							case "ddddd": formattedDate += longDays[dow]; break; 							
 							case "M": formattedDate += month; break;
 							case "MM": formattedDate += ("0" + month).slice(-2); break;
 							case "MMM": formattedDate += longMonths[month - 1].substr(0, 3); break;

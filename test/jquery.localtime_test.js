@@ -83,6 +83,16 @@
 		$.localtime.setFormat("dd");
 		equal("03", $.localtime.toLocalTime("2011-01-03 13:39:30.300Z") );
 	});
+	test("Long day formats", function() {
+		$.localtime.setFormat("ddd");
+		equal("Sun", $.localtime.toLocalTime("2011-01-02 13:39:30.300Z") );
+		$.localtime.setFormat("ddddd");
+		equal("Sunday", $.localtime.toLocalTime("2011-01-02 13:39:30.300Z") );
+		$.localtime.setFormat("ddd");
+		equal("Sat", $.localtime.toLocalTime("2014-01-11 13:39:30.300Z") );
+		$.localtime.setFormat("ddddd");
+		equal("Saturday", $.localtime.toLocalTime("2014-01-11 13:39:30.300Z") );
+	});
 	test("Month formats", function() {
 		$.localtime.setFormat("M");
 		equal("1", $.localtime.toLocalTime("2011-01-03 13:39:30.300Z") );
@@ -271,7 +281,7 @@
 		equal("3rd Jan 2011 at 13:39", $('#innerSpanClass').text()); // Formatted
 	});
 	
-	test("Default scope (whoele page)", function() {
+	test("Default scope (whole page)", function() {
 		// NB. Following is require to prevent the formatting be applied to already
 		// formatted date/times
 		$('[data-localtime-format]').removeAttr('data-localtime-format');
