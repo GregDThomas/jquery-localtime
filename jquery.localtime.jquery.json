@@ -1,5 +1,5 @@
 {
-    "version": "0.9.0-SNAPSHOT",
+    "version": "0.9.0",
     "name": "jquery.localtime",
     "title": "jQuery localtime",
     "description": "This plug-in designed to display a time in the correct timezone for the viewer; ideal for international audiences of your web site.",
