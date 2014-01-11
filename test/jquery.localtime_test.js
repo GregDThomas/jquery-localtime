@@ -297,6 +297,7 @@
 	});
 
 	test("time tags", function() {
-		equal($('#timeTagTest').text(), "3rd Jan 2011 1:39pm");
+		equal($('#timeTagTestDefault').text(), "2011-01-03 13:39:00");
+		equal($('#timeTagTestNonDefault').text(), "3rd Jan 2011 1:39pm");
 	});
 }(jQuery));
