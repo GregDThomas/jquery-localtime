@@ -13,13 +13,13 @@
 							'April', 'May', 'June',
 							'July', 'August', 'September',
 							'October', 'November', 'December'];
-							
+
 		var longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-							
+
 		var ordinals = ['th', 'st', 'nd', 'rd'];
-							
+
 		var amPmHour = function (hour) {
-			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour); 
+			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour);
 		};
 
 		var formatLocalDateTime = function (objDate, timeFormat) {
@@ -50,7 +50,7 @@
 					return objDate.toString();
 				}
 			}
-			
+
 			// Parse the format string, one char at a time
 			var formattedDate = "", pattern = "";
 			for( var i = 0;  i < timeFormat.length; i ++) {
@@ -58,7 +58,7 @@
 				// Do we have a literal?
 				if( pattern === "'" ) {
 					i ++;
-					for( ; i < timeFormat.length; i ++ ) {					
+					for( ; i < timeFormat.length; i ++ ) {
 						var literalChar = timeFormat.charAt(i);
 						if( literalChar === "'" ) {
 							// End the literal
@@ -70,10 +70,10 @@
 				// Do we have an escaped single quote?
 				} else if( pattern === "\\" &&
 							i < (timeFormat.length-1) &&
-							timeFormat.charAt(i+1) === "'" ) {							
+							timeFormat.charAt(i+1) === "'" ) {
 					i ++;
 					formattedDate += "'";
-					pattern = "";					
+					pattern = "";
 				} else {
 					// Have we reached the end of the pattern?
 					if (i === timeFormat.length - 1 || timeFormat.charAt(i) !== timeFormat.charAt(i + 1)) {
@@ -81,8 +81,8 @@
 						switch (pattern) {
 							case "d": formattedDate += date; break;
 							case "dd": formattedDate += ("0" + date).slice(-2); break;
-							case "ddd": formattedDate += longDays[dow].substr(0, 3); break; 
-							case "ddddd": formattedDate += longDays[dow]; break; 							
+							case "ddd": formattedDate += longDays[dow].substr(0, 3); break;
+							case "ddddd": formattedDate += longDays[dow]; break;
 							case "M": formattedDate += month; break;
 							case "MM": formattedDate += ("0" + month).slice(-2); break;
 							case "MMM": formattedDate += longMonths[month - 1].substr(0, 3); break;
@@ -100,7 +100,7 @@
 							case "S": formattedDate += millisecond; break;
 							case "SS": formattedDate += ("0" + millisecond).slice(-2); break;
 							case "SSS": formattedDate += ("00" + millisecond).slice(-3); break;
-							case "o": 
+							case "o":
 								switch( date ) {
 									// Special cases
 									case '11':
@@ -114,10 +114,10 @@
 											ordinalIndex = 0;
 										}
 										formattedDate += ordinals[ordinalIndex];
-										break;									
+										break;
 								}
 								break;
-							case "a": 
+							case "a":
 							case "TT": formattedDate += (hour >= 12) ? "PM" : "AM"; break;
 							case "tt": formattedDate += (hour >= 12) ? "pm" : "am"; break;
 							case "T": formattedDate += (hour >= 12) ? "P" : "A"; break;
@@ -128,10 +128,10 @@
 							case "zz":
 								formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2);
 								break;
-							case "zzz": 
+							case "zzz":
 								formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2) + ":" + ("0" + tzOffset % 60).slice(-2);
 								break;
-							default: 
+							default:
 								formattedDate += pattern;
 								break;
 						}
@@ -154,7 +154,7 @@
 			},
 
 			getFormat: function () {
-				return formatList; 
+				return formatList;
 			},
 
 			parseISOTimeString: function (isoTimeString) {
@@ -170,21 +170,21 @@
 					var minute = parseInt(fields[5], 10);
 					var second = (fields[6] ? parseInt(fields[6], 10) : 0 );
 					var millisecond = (fields[7] ? parseInt(fields[7], 10) : 0 );
-					
+
 					var objDate = new Date(Date.UTC(year, month, dayOfMonth, hour, minute, second, millisecond));
-					
+
 					// Now check for invalid dates - e.g. 30 of Feb, 31 of Sep
 					if( objDate.getUTCFullYear() !== year ||
 						objDate.getUTCMonth() !== month ||
 						objDate.getUTCDate() !== dayOfMonth ) {
 						throw new Error(fields[1] + "-" + fields[2] + "-" + fields[3] + " is not a valid date");
 					}
-					
+
 					// And invalid times - e.g. 25:40 - NB minutes, seconds and milliseconds are constrained by the regex
 					if( objDate.getUTCHours() !== hour ) {
 						throw new Error(fields[4] + ":" + fields[5] + " is not a valid time");
 					}
-					
+
 					return objDate;
 				} else {
 					throw new Error(isoTimeString + " is not a supported date/time string");
@@ -200,20 +200,20 @@
 				}
 				return formatLocalDateTime(timeField, timeFormat);
 			},
-			
+
 			formatObject: function( object, format ) {
 				if (object.is(':input')) {
 					object.val($.localtime.toLocalTime(object.val(), format));
 				} else {
 					object.text($.localtime.toLocalTime(object.text(), format));
 				}
-			},			
-	
+			},
+
 			// Deprecated! Use format() instead
 			formatPage: function() {
 				$.localtime.format();
 			},
-	
+
 			format: function( scope ) {
 				// First, the class-based format
 				var format;
@@ -228,7 +228,7 @@
 						$("." + cssClass, scope).each(localiseByClass);
 					}
 				}
-				
+
 				// Then, the data-based format
 				$('[data-localtime-format]', scope).each( function () {
 					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
