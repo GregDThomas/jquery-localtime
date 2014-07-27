@@ -1,4 +1,4 @@
-/*! jQuery localtime - v0.9.1 - 2014-01-11
+/*! jQuery localtime - v0.9.1 - 2014-07-27
 * https://github.com/GregDThomas/jquery-localtime
 * Copyright (c) 2014 Greg Thomas; Licensed Apache-2.0 */
 (function ($) {
@@ -19,6 +19,8 @@
 		var amPmHour = function (hour) {
 			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour);
 		};
+
+		var localTzAbbrev = new Date().toString().match(/\(([A-Z]+)\)/)[1];
 
 		var formatLocalDateTime = function (objDate, timeFormat) {
 			// Note that some fields are stored strings, as we slice and/or add a "0" prefix in some cases.
@@ -129,6 +131,9 @@
 							case "zzz":
 								formattedDate += tzSign + ("0" + parseInt(tzOffset / 60, 10)).slice(-2) + ":" + ("0" + tzOffset % 60).slice(-2);
 								break;
+							case "Z":
+								formattedDate += localTzAbbrev;
+								break;
 							default:
 								formattedDate += pattern;
 								break;
@@ -233,6 +238,16 @@
 				$('[data-localtime-format]', scope).each( function () {
 					$.localtime.formatObject( $(this), $(this).attr('data-localtime-format') );
 				});
+			},
+
+			checkDaylightSavings: function( objDate ) {
+				var jan = new Date(objDate.getFullYear(), 0, 1);
+				var jul = new Date(objDate.getFullYear(), 6, 1);
+
+				var stdTimeZoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+				var curTimeZoneOffset = objDate.getTimezoneOffset();
+
+				return curTimeZoneOffset < stdTimeZoneOffset;
 			}
 		};
 	}());

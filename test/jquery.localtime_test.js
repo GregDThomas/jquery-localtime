@@ -164,6 +164,17 @@
 		equal("+00", $.localtime.toLocalTime("2011-01-03 13:39:30.003Z") );
 		$.localtime.setFormat("zzz");
 		equal("+00:00", $.localtime.toLocalTime("2011-01-03 13:39:30.003Z") );
+
+		var timezoneAbbrev = "";
+		if ($.localtime.checkDaylightSavings(new Date())) {
+			timezoneAbbrev = "BST";
+		}
+		else {
+			timezoneAbbrev = "GMT";
+		}
+
+		$.localtime.setFormat("Z");
+		equal(timezoneAbbrev, $.localtime.toLocalTime("2011-01-03 13:39:30.003Z") );
 	});
 	test("12 hr format", function() {
 		$.localtime.setFormat("h");
@@ -299,5 +310,12 @@
 	test("time tags", function() {
 		equal($('#timeTagTestDefault').text(), "2011-01-03 13:39:00");
 		equal($('#timeTagTestNonDefault').text(), "3rd Jan 2011 1:39pm");
+	});
+
+	module("Daylight Savings Time");
+
+	test("Check if daylight Savings Time is in effect", function() {
+		equal(false, $.localtime.checkDaylightSavings(new Date(2014, 0, 1)));
+		equal(true,  $.localtime.checkDaylightSavings(new Date(2014, 6, 1)));
 	});
 }(jQuery));
