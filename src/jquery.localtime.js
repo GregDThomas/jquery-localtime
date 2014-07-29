@@ -22,7 +22,7 @@
 			return (hour >= 13) ? (hour - 12) : ((hour === "0") ? 12 : hour);
 		};
 
-		var localTzAbbrev = new Date().toString().match(/\(([A-Z]+)\)/)[1];
+		var localTzAbbrev = new Date().toString().match(/\(([A-Za-z\s]+)\)/)[1];
 
 		var formatLocalDateTime = function (objDate, timeFormat) {
 			// Note that some fields are stored strings, as we slice and/or add a "0" prefix in some cases.
