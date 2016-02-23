@@ -161,7 +161,7 @@
 				isoTimeString = $.trim(isoTimeString.toString());
 							// 2013-02-17 14:28:10.123Z
                             // 1:yyyy  2:MM     3:dd          4:HH      5:mm         6:ss          7:SSS
-				var fields = /^(\d{4})-([01]\d)-([0-3]\d)[T| ]([0-2]\d):([0-5]\d)(?::([0-5]\d)(?:\.(\d{3}))?)?Z$/.exec(isoTimeString);
+				var fields = /^(\d{4})-([01]\d)-([0-3]\d)[T| ]([0-2]\d):([0-5]\d)(?::([0-5]\d)(?:\.(\d*))?)?Z$/.exec(isoTimeString);
 				if( fields ) {
 					var year = parseInt(fields[1], 10);
 					var month = parseInt(fields[2], 10) - 1;
@@ -169,7 +169,7 @@
 					var hour = parseInt(fields[4], 10);
 					var minute = parseInt(fields[5], 10);
 					var second = (fields[6] ? parseInt(fields[6], 10) : 0 );
-					var millisecond = (fields[7] ? parseInt(fields[7], 10) : 0 );
+					var millisecond = (fields[7] ? parseInt((fields[7]+"000").substring(0, 3), 10) : 0 );
 
 					var objDate = new Date(Date.UTC(year, month, dayOfMonth, hour, minute, second, millisecond));
 
